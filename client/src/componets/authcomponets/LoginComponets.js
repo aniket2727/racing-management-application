@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, selectUser } from '../../redux/userSlice';
 
 const LoginComponents = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userEmail, setEmail] = useState('');
+  const [userPassword, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+  const { email, token } = useSelector(selectUser);
+  console.log("this is email ",email,token)
 
   const handleLogin = () => {
-    if (!email || !password) {
+    if (!userEmail || !userPassword) {
       return console.log('Fill in all data');
     }
-    // Add your login logic here
+    dispatch(setUser({ email: userEmail, token: 'yourAuthTokenHere' }));
   };
 
   return (
@@ -20,7 +26,7 @@ const LoginComponents = () => {
           <input
             type="email"
             placeholder="Enter email"
-            value={email}
+            value={userEmail}
             onChange={(e) => setEmail(e.target.value)}
             className="form-input mt-1 block w-full py-2 px-4 rounded-lg border border-gray-300 cursor-pointer"
           />
@@ -31,7 +37,7 @@ const LoginComponents = () => {
           <input
             type="password"
             placeholder="Enter password"
-            value={password}
+            value={userPassword}
             onChange={(e) => setPassword(e.target.value)}
             className="form-input mt-1 block w-full py-2 px-4 rounded-lg border border-gray-300 cursor-pointer"
           />
@@ -47,6 +53,6 @@ const LoginComponents = () => {
       </div>
     </div>
   );
-}
+};
 
 export default LoginComponents;
