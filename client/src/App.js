@@ -8,6 +8,8 @@ import AddCartsComponent from "./componets/craeteevent/AddCartsComponet";
 import FirstRoundComponet from "./componets/selection/FirstRoundComponet";
 import SemifinalsComponets from "./componets/selection/SemifinalsComponets";
 import FinalComponets from "./componets/selection/FinalComponet";
+import UserprofileComponet from "./componets/userprofile/UserprofileComponet";
+import Searchprofile from "./componets/userprofile/Searchprofile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/first-round" element={<FirstRoundComponet/>}/>
           <Route path="/semi-finals" element={<SemifinalsComponets/>}/>
           <Route path="/finals" element={<FinalComponets/>}/>
+          <Route path="/profile" element={<UserprofileComponet/>}/>
+          <Route path="/userprofile" element={<Searchprofile/>}/>
         </Routes>
       </BrowserRouter>
     </div>
