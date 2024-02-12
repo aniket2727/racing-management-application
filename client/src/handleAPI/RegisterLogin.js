@@ -1,4 +1,4 @@
-const baseurl = "http://localhost"; // Assuming you missed the protocol (http/https)
+const baseurl = "http://localhost:8008"; // Assuming you missed the protocol (http/https)
 
 const loginData = async (newData) => {
   console.log("this is login data", newData)
@@ -25,7 +25,7 @@ const loginData = async (newData) => {
 const registerData = async (newUserData) => {
   console.log("this is register data", newUserData)
   try {
-    const response = await fetch(`${baseurl}/api/register`, {
+    const response = await fetch(`${baseurl}/register/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

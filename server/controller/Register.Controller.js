@@ -11,7 +11,11 @@ const User = require('../database/userinfoSchema');
 router.post('/register', async (req, res) => {
   try {
     const { email, name, password } = req.body; // Use 'pass' instead of 'password'
-    console.log("the data get from request", email, name, password)
+
+    console.log("the data get from request email", email)
+    console.log("the data get from request name", name)
+    console.log("the data get from request password", password)
+
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {

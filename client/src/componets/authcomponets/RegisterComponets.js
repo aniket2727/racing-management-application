@@ -20,12 +20,19 @@ const RegisterComponents = () => {
     }
 
     try {
-      await mutation.mutateAsync({
+      const response = await mutation.mutateAsync({
         email: email,
         name: name,
         password: password,
       });
-      // Data successfully updated
+  
+      // Check if the response contains a success message
+      if (response && response.success) {
+        console.log('Registration successful:', response.message);
+        // Optionally, you can navigate to another page or show a success message to the user
+      } else {
+        console.log('Registration failed. Unexpected response:', response);
+      }
     } catch (error) {
       // Handle error
       console.error('Registration failed:', error.message);
