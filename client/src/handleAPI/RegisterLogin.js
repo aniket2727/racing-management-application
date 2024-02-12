@@ -3,7 +3,7 @@ const baseurl = "http://localhost:8008"; // Assuming you missed the protocol (ht
 const loginData = async (newData) => {
   console.log("this is login data", newData)
   try {
-    const response = await fetch(`${baseurl}/api/login`, {
+    const response = await fetch(`${baseurl}/login/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

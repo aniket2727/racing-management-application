@@ -8,30 +8,38 @@ import { loginData } from '../../handleAPI/RegisterLogin';
 
 
 const LoginComponents = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const mutation = useMutation(loginData);
 
   const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
   const { email, token } = useSelector(selectUser);
-  console.log("this is email ", email, token);
 
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     if (!userEmail || !userPassword) {
       return console.log('Fill in all data');
     }
-    dispatch(setUser({ email: userEmail, token: 'yourAuthTokenHere' }));
     try {
-      await mutation.mutateAsync({
+      const response = await mutation.mutateAsync({
         email: userEmail,
         password: userPassword,
       });
-    
-    } catch (error) {
+       
+      dispatch(setUser({ email: response.email, token: response.token }));
       
+      // Check if the response contains a success message
+      if (response && response.success) {
+        console.log('Registration successful:', response.message);
+        // Optionally, you can navigate to another page or show a success message to the user
+      } else {
+        console.log('Registration failed. Unexpected response:', response);
+      }
+    } catch (error) {
+      // Handle error
       console.error('Registration failed:', error.message);
     }
   };
@@ -66,7 +74,7 @@ const LoginComponents = () => {
           Login
         </button>
 
-        <button className="mt-2 text-blue-500" onClick={()=>navigate('/register')}>
+        <button className="mt-2 text-blue-500" onClick={() => navigate('/register')}>
           Not Account, Register
         </button>
       </div>

@@ -9,6 +9,7 @@ app.use(express.json());
 require('./database/config');
 
 const registerRouter = require('./router/Register.Router'); // register
+const LoginRouter=require('./router/Login.Router');   // login
 
 
 
@@ -18,6 +19,7 @@ const registerRouter = require('./router/Register.Router'); // register
 
 
 app.use('/register', registerRouter);   // for register user
+app.use('/login', LoginRouter);   // for register user
 
 
 
