@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const Searchprofile = () => {
+  // eslint-disable-next-line no-unused-vars
   const [posts, setPosts] = useState([
     {
       post: "ajajjsjsjjsjjsj",

@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, selectUser } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const LoginComponents = () => {
-  const [userEmail, setEmail] = useState('');
-  const [userPassword, setPassword] = useState('');
-
+  const navigate=useNavigate();
   const dispatch = useDispatch();
   const { email, token } = useSelector(selectUser);
-  console.log("this is email ",email,token)
+  console.log("this is email ", email, token);
+
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
 
   const handleLogin = () => {
     if (!userEmail || !userPassword) {
       return console.log('Fill in all data');
     }
+
     dispatch(setUser({ email: userEmail, token: 'yourAuthTokenHere' }));
   };
 
@@ -27,7 +33,7 @@ const LoginComponents = () => {
             type="email"
             placeholder="Enter email"
             value={userEmail}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUserEmail(e.target.value)}
             className="form-input mt-1 block w-full py-2 px-4 rounded-lg border border-gray-300 cursor-pointer"
           />
         </label>
@@ -38,7 +44,7 @@ const LoginComponents = () => {
             type="password"
             placeholder="Enter password"
             value={userPassword}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setUserPassword(e.target.value)}
             className="form-input mt-1 block w-full py-2 px-4 rounded-lg border border-gray-300 cursor-pointer"
           />
         </label>
@@ -47,7 +53,7 @@ const LoginComponents = () => {
           Login
         </button>
 
-        <button className="mt-2 text-blue-500" onClick={() => console.log('Navigate to register')}>
+        <button className="mt-2 text-blue-500" onClick={()=>navigate('/register')}>
           Not Account, Register
         </button>
       </div>
