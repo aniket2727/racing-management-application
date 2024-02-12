@@ -1,7 +1,7 @@
 const baseurl = "http://localhost"; // Assuming you missed the protocol (http/https)
 
 const loginData = async (newData) => {
-  console.log("this is login data",newData)
+  console.log("this is login data", newData)
   try {
     const response = await fetch(`${baseurl}/api/login`, {
       method: 'POST',
@@ -23,7 +23,7 @@ const loginData = async (newData) => {
 };
 
 const registerData = async (newUserData) => {
-  console.log("this is register data",newUserData)
+  console.log("this is register data", newUserData)
   try {
     const response = await fetch(`${baseurl}/api/register`, {
       method: 'POST',
