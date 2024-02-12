@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { useMutation } from 'react-query';
+import { loginData } from '../../handleAPI/RegisterLogin';
 
 
 
 const LoginComponents = () => {
   const navigate=useNavigate();
+
+  const mutation = useMutation(loginData);
+
   const dispatch = useDispatch();
   const { email, token } = useSelector(selectUser);
   console.log("this is email ", email, token);
@@ -15,12 +19,21 @@ const LoginComponents = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if (!userEmail || !userPassword) {
       return console.log('Fill in all data');
     }
-
     dispatch(setUser({ email: userEmail, token: 'yourAuthTokenHere' }));
+    try {
+      await mutation.mutateAsync({
+        email: userEmail,
+        password: userPassword,
+      });
+    
+    } catch (error) {
+      
+      console.error('Registration failed:', error.message);
+    }
   };
 
   return (

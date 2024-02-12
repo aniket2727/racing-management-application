@@ -11,8 +11,11 @@ import FinalComponets from "./componets/selection/FinalComponet";
 import UserprofileComponet from "./componets/userprofile/UserprofileComponet";
 import Searchprofile from "./componets/userprofile/Searchprofile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from 'react-query';
+const queryClient = new QueryClient();
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <div>
       <BrowserRouter>
       <NavbarComponents/>
@@ -29,6 +32,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
+    </QueryClientProvider>
   );
 }
 
