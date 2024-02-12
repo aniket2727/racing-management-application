@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-const FirstRoundComponet = () => {
-    const [flag,setflag]=useState(false)
+const FinalComponets = () => {
   // eslint-disable-next-line no-unused-vars
   const [allcartsdata, setallcartsdata] = useState([
     { id: 1, bullName1: "Bull1", bullName2: "Bull2", ownerName1: "Owner1", ownerName2: "Owner2" },
@@ -28,13 +27,9 @@ const FirstRoundComponet = () => {
 
   const [startIndex, setStartIndex] = useState(0);
   const cartsPerPage = 9;
-  const handleConfirm=()=>{
-    setflag(false)
-  }
-
+ 
   const handleWinnerClick = () => {
     if (startIndex + cartsPerPage < allcartsdata.length) {
-        setflag(true)   
         setStartIndex(startIndex + cartsPerPage);
         
     } else {
@@ -42,18 +37,7 @@ const FirstRoundComponet = () => {
     }
   };
 
-    if (flag) {
-        return (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-gray-500">
-            <div className="bg-white p-4 rounded-md text-center">
-              <h1 className="text-xl mb-4">You are confirming about the user</h1>
-              <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleConfirm}>
-                Confirm
-              </button>
-            </div>
-          </div>
-        );
-      }
+   
   
 
   return (
@@ -86,4 +70,4 @@ const FirstRoundComponet = () => {
     </div>
   );}
 
-export default FirstRoundComponet;
+export default FinalComponets;
