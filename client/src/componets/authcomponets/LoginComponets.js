@@ -34,9 +34,14 @@ const LoginComponents = () => {
       // Check if the response contains a success message
       if (response && response.success) {
         console.log('Registration successful:', response.message);
-        // Optionally, you can navigate to another page or show a success message to the user
+        setTimeout(()=>{
+          navigate('/home')
+        },2000)
       } else {
         console.log('Registration failed. Unexpected response:', response);
+          setTimeout(()=>{
+            navigate('/home')
+          },2000)
       }
     } catch (error) {
       // Handle error
