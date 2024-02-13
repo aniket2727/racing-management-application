@@ -1,7 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import {  selectUser ,clearUser} from '../../redux/userSlice';
+
 const NavbarComponents = () => {
+  const dispatch = useDispatch();
   const navigate=useNavigate();
+ 
+  // eslint-disable-next-line no-unused-vars
+  const { email, token } = useSelector(selectUser);
+  
+  const handlelogout=()=>{
+      setTimeout(() => {
+        dispatch( clearUser());
+      }, 1000);
+  }
+  
   return (
     <div className="flex justify-between items-center p-4 bg-gray-800 text-white">
       <div>
@@ -12,9 +27,19 @@ const NavbarComponents = () => {
         <button className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded">
           Account
         </button>
-        <button className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded" onClick={()=>navigate('/login')}>
+       {
+            email?
+            <button className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded" onClick={handlelogout}>
+            Logout
+          </button>
+          :
+          <button
+          className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={() => setTimeout(() => navigate('/login'), 1000)}
+        >
           Login
         </button>
+       }
       </div>
     </div>
   );
