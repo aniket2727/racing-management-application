@@ -11,7 +11,7 @@ require('./database/config');
 const registerRouter = require('./router/Register.Router'); // register
 const LoginRouter=require('./router/Login.Router');   // login
 const EventRouter=require('./router/EventRouter')   // event 
-
+const PostContentRouter=require('./router/Allpost.Router')  // all post data
 
 
 
@@ -20,8 +20,9 @@ const EventRouter=require('./router/EventRouter')   // event
 
 
 app.use('/register', registerRouter);   // for register user
-app.use('/login', LoginRouter);   // for register user
-app.use('/event', EventRouter);   // for register user
+app.use('/login', LoginRouter);   // for login user
+app.use('/event', EventRouter);   // for event get set user
+app.use('/post', PostContentRouter);   // for post get set user
 
 
 
