@@ -1,6 +1,8 @@
 
 
 
+
+
 const mongoose = require('mongoose');
 
 const eventSchema = mongoose.Schema({
@@ -20,11 +22,12 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
+    eventDate: {
         type: Date,
         required: true
     }
 });
+ 
 
 const EventModel = mongoose.model('Event', eventSchema);
 

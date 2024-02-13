@@ -4,13 +4,17 @@ const EventModel = require('../database/eventInfoSchema');
 const createEvent = async (req, res) => {
     try {
         const eventData = req.body;
-        const existingEvent = await EventModel.findOne({ email: eventData.email });
+        console.log(eventData);
+
+        // Check if an event with the same email and isRunning: true already exists
+        const existingEvent = await EventModel.findOne({ email: eventData.email, isRunning: true });
 
         if (existingEvent) {
-            // Event with the same email already exists
-            return res.status(400).json({ error: 'Event for this email already exists.' });
+            // Event with the same email and isRunning: true already exists
+            return res.status(400).json({ error: 'Event is already running for this email.' });
         }
 
+        // If not, proceed to create a new event
         const newEvent = await EventModel.create(eventData);
         res.status(201).json(newEvent);
     } catch (error) {

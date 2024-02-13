@@ -11,9 +11,8 @@ const CreateEventComponents = () => {
   const [eventDate, setEventDate] = useState('');
 
   const { email, token } = useSelector(selectUser);
-
   const { mutate: createEvent, isLoading, isError } = useMutation(
-    (newData) => addevent({ newData, token }),
+    (newData) => addevent({ ...newData, email, token }),
     {
       onSuccess: () => {
         // Handle success, e.g., reset form fields
@@ -28,6 +27,7 @@ const CreateEventComponents = () => {
   const handleCreateEvent = async () => {
     try {
       await createEvent({
+        token,
         email,
         eventName,
         organizerName,

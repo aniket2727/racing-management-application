@@ -1,14 +1,12 @@
-const baseurl = "http://localhost:8008"; // Assuming you missed the protocol (http/https)
+const baseurl = "http://localhost:8008";
 
-const addevent = async ({ email, eventName, organizerName, location, eventDate }, token) => {
-  console.log("this is event data", { email, eventName, organizerName, location, eventDate });
-
+const addevent = async ({ token,email, eventName, organizerName, location, eventDate }) => { 
   try {
     const response = await fetch(`${baseurl}/event/events`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({ email, eventName, organizerName, location, eventDate }),
     });
