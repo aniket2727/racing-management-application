@@ -8,10 +8,10 @@ app.use(cors());
 app.use(express.json());
 require('./database/config');
 
-const registerRouter = require('./router/Register.Router'); // register
-const LoginRouter=require('./router/Login.Router');   // login
-const EventRouter=require('./router/EventRouter')   // event 
-const PostContentRouter=require('./router/Allpost.Router')  // all post data
+const registerRouter = require('./router/Register.Router'); // register manage
+const LoginRouter=require('./router/Login.Router');   // login  // manage
+const EventRouter=require('./router/EventRouter')   // event management
+const PostContentRouter=require('./router/Allpost.Router')  // all post management
 
 
 
