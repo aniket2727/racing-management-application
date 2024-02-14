@@ -2,7 +2,7 @@
 
 
 // postController.js
-const PostModel = require('../database/postschema');
+const PostModel = require('../database/postSchema');
 
 // Controller to create a new post
 const createPost = async (req, res) => {
