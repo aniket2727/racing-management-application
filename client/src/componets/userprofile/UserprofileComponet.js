@@ -4,19 +4,15 @@ import { useSelector } from 'react-redux';
 import { addpost } from '../../handleAPI/handleallpostaAPI';
 import { selectUser } from '../../redux/userSlice';
 
-const UserprofileComponet = () => {
+const UserprofileComponent = () => {
   const [postContent, setPostContent] = useState('');
-  const [previousPosts, setPreviousPosts] = useState([]); // Assuming this state is for displaying previous posts
-
-  // eslint-disable-next-line no-unused-vars
-  const [name, setName] = useState('aniket');
-
   const { email, token } = useSelector(selectUser);
-  // eslint-disable-next-line no-unused-vars
+  const [name, setName] = useState('aniket'); // You may set a default name or fetch it from somewhere
+
   const { mutate: createEvent, isLoading, isError } = useMutation(
-    (newData) => addpost({ ...newData, email, token }),
+    () => addpost({ email, name, postContent, token }),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         setPostContent('');
       },
     }
@@ -24,12 +20,7 @@ const UserprofileComponet = () => {
 
   const handleCreateEvent = async () => {
     try {
-      await createEvent({
-        email,
-        name,
-        postContent,
-        token,
-      });
+      await createEvent();
     } catch (error) {
       console.error('Error creating event:', error.message);
     }
@@ -51,24 +42,16 @@ const UserprofileComponet = () => {
           ></textarea>
         </div>
         <div>
-          <button onClick={handleCreateEvent} className="bg-blue-500 text-white px-4 py-2 rounded mt-2">
+          <button
+            onClick={handleCreateEvent}
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+          >
             Add Post
           </button>
-        </div>
-
-        <div style={{ maxWidth: '400px' }}>
-          {previousPosts.map((post, index) => (
-            <div
-              key={index}
-              className="border border-black rounded p-2 my-2 break-words"
-            >
-              {post}
-            </div>
-          ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default UserprofileComponet;
+export default UserprofileComponent;
