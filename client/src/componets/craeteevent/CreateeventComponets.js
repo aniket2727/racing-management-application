@@ -3,12 +3,15 @@ import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
 import { addevent } from '../../handleAPI/HandleEvent.API';
 import { selectUser } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEventComponents = () => {
   const [eventName, setEventName] = useState('');
   const [organizerName, setOrganizerName] = useState('');
   const [location, setLocation] = useState('');
   const [eventDate, setEventDate] = useState('');
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const { email, token } = useSelector(selectUser);
   const { mutate: createEvent, isLoading, isError } = useMutation(
@@ -20,6 +23,9 @@ const CreateEventComponents = () => {
         setOrganizerName('');
         setLocation('');
         setEventDate('');
+
+        // Navigate to the /addcarts page after successful event creation
+        navigate('/addcart');
       },
     }
   );

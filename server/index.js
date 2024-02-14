@@ -12,8 +12,7 @@ const registerRouter = require('./router/Register.Router'); // register manage
 const LoginRouter=require('./router/Login.Router');   // login  // manage
 const EventRouter=require('./router/EventRouter')   // event management
 const PostContentRouter=require('./router/Allpost.Router')  // all post management
-
-
+const CartAddRouter=require('./router/CartsData.Router')   // carts data
 
 
 
@@ -23,7 +22,7 @@ app.use('/register', registerRouter);   // for register user
 app.use('/login', LoginRouter);   // for login user
 app.use('/event', EventRouter);   // for event get set user
 app.use('/post', PostContentRouter);   // for post get set user
-
+app.use('/cart',CartAddRouter);   // for getting carts and adding carts
 
 
 const PORT = process.env.PORT || 8008;
