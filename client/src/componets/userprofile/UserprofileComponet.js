@@ -18,8 +18,6 @@ const UserprofileComponet = () => {
     {
       onSuccess: (data) => {
         setPostContent('');
-        // Assuming your API response contains the new post data
-        setPreviousPosts((prevPosts) => [...prevPosts, data.postContent]);
       },
     }
   );
