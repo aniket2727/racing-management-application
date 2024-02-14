@@ -7,8 +7,10 @@ import { selectUser } from '../../redux/userSlice';
 const UserprofileComponent = () => {
   const [postContent, setPostContent] = useState('');
   const { email, token } = useSelector(selectUser);
+  // eslint-disable-next-line no-unused-vars
   const [name, setName] = useState('aniket'); // You may set a default name or fetch it from somewhere
 
+  // eslint-disable-next-line no-unused-vars
   const { mutate: createEvent, isLoading, isError } = useMutation(
     () => addpost({ email, name, postContent, token }),
     {

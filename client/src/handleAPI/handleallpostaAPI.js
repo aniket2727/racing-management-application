@@ -1,16 +1,6 @@
-
-
-
-
-
-
 const baseurl = "http://localhost:8008";
 
-const addpost = async ({email,name, postContent,token}) => { 
-      console.log("this is  email",email)
-      console.log("this is name",name)
-      console.log("this is content",postContent)
-      console.log("this is token",token)
+const addpost = async ({ email, name, postContent, token }) => {
   try {
     const response = await fetch(`${baseurl}/post/posts`, {
       method: 'POST',
@@ -18,18 +8,51 @@ const addpost = async ({email,name, postContent,token}) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify({ email, name, postContent}),
+      body: JSON.stringify({ email, name, postContent }),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to add data: ${response.status}`);
+      const errorData = await response.json();
+      throw new Error(`Failed to add post: ${errorData.message}`);
     }
 
     const data = await response.json();
-    return data;
+    return { data };
   } catch (error) {
-    throw new Error(`Event creation failed: ${error.message}`);
+    return { error: error.message };
   }
 };
 
-export { addpost };
+const getallpost = async ({ token }) => {
+  try {
+    const response = await fetch(`${baseurl}/post/posts`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to get all posts: ${errorData.message}`);
+    }
+
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
+const getpostEmail = async ({ email, token }) => {
+  try {
+    const response = await fetch(`${baseurl}/post/posts/${email}`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Failed to get posts by email: ${errorData.message}`);
+    }
+
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
+export { addpost, getallpost, getpostEmail };
