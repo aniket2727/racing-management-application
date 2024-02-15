@@ -14,14 +14,7 @@ const addCart = async (req, res) => {
       cartName,
     } = req.body;
 
-    console.log( email,
-      name,
-      firstName1,
-      firstName2,
-      ownerName1,
-      ownerName2,
-      contactNumber,
-      cartName)
+    console.log(email, name, firstName1, firstName2, ownerName1, ownerName2, contactNumber, cartName);
 
     const newCart = new Cart({
       email,
@@ -44,6 +37,8 @@ const addCart = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };
+
+    
 
 // Controller to get carts by email
 const getcartsdatabyEmail = async (req, res) => {

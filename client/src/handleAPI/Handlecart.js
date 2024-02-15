@@ -32,4 +32,26 @@ const addCartsData = async ({ token, email, name, firstName1, firstName2, ownerN
   }
 };
 
-export { addCartsData };
+// Assume you have a function to retrieve carts by email
+const getcartsdatabyEmail = async (email, token) => {
+    try {
+        const response = await fetch(`${baseurl}/cart/getByEmail/${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to get carts: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Error getting carts: ${error.message}`);
+    }
+};
+
+export {  addCartsData, getcartsdatabyEmail};

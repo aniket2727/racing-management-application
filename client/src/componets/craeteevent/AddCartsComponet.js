@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import SearchBarComponents from '../searchbar/SearchBarComponets';
-import { useMutation } from 'react-query';
+import { useMutation } from 'react-query'; // Remove useQuery and queryClient imports
 import { useSelector } from 'react-redux';
-import { addCartsData } from '../../handleAPI/Handlecart';
+import { addCartsData, getcartsdatabyEmail } from '../../handleAPI/Handlecart';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,14 +14,19 @@ const AddCartsComponent = () => {
     const [contactNumber, setContactNumber] = useState('');
     const [cartName, setCartName] = useState('');
 
+
     // eslint-disable-next-line no-unused-vars
-    const[name,setname]=useState('aniket')
+    const [getcartdata, setGetcartdata] = useState([]);
 
     const navigate = useNavigate(); // Initialize useNavigate hook
 
     const { email, token } = useSelector(selectUser);
     // eslint-disable-next-line no-unused-vars
-    const { mutate: createEvent, isLoading, isError } = useMutation(
+    const [name, setName] = useState('aniket');
+
+    // Create a new cart
+    // eslint-disable-next-line no-unused-vars
+    const { mutate: createEvent, isLoading: isCreating } = useMutation(
         (newData) => addCartsData({ ...newData, email, token }),
         {
             onSuccess: () => {
@@ -43,8 +48,8 @@ const AddCartsComponent = () => {
         try {
             await createEvent({
                 token,
-                name,
                 email,
+                name,
                 firstName1,
                 firstName2,
                 ownerName1,
@@ -52,6 +57,12 @@ const AddCartsComponent = () => {
                 contactNumber,
                 cartName,
             });
+
+            const cartsData = await getcartsdatabyEmail(email, token);
+            setGetcartdata(cartsData.data); // Corrected to set data property
+
+            console.log('Carts Data:', cartsData);
+            console.log(getcartdata)
         } catch (error) {
             console.error('Error creating event:', error.message);
         }
@@ -131,6 +142,25 @@ const AddCartsComponent = () => {
                     </button>
                 </div>
             </div>
+
+            <div className="cart-list mt-8 mx-auto max-w-md">
+                {getcartdata && getcartdata.length > 0 ? (
+                    getcartdata.map((cart, index) => (
+                        <div key={index} className="cart-item bg-white p-4 my-4 rounded-md shadow-md">
+                            <h2 className="text-xl font-bold">Cart Name: {cart.cartName}</h2>
+                            <p>Owner Name: {cart.ownerName1} {cart.ownerName2}</p>
+                            <p>Contact Number: {cart.contactNumber}</p>
+                            <p>nandi name1: {cart.firstName1} {cart.ownerName2}</p>
+                            <p>nandi  name2: {cart.firstName2}</p>
+                        </div>
+                    ))
+                ) : (
+                    <div className="empty-cart-list text-center">
+                        <h1 className="text-xl font-bold">No carts added yet</h1>
+                    </div>
+                )}
+            </div>
+
         </>
     );
 };
