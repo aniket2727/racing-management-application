@@ -135,7 +135,7 @@ const AddCartsComponent = () => {
                         Add to Event
                     </button>
                     <button
-                        onClick={handleAddCart} // Adjusted function name
+                        onClick={()=>navigate('/first-round')} // Adjusted function name
                         className="bg-green-500 text-white px-4 py-2 rounded"
                     >
                         Start Race

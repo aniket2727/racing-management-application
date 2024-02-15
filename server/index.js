@@ -13,6 +13,7 @@ const LoginRouter=require('./router/Login.Router');   // login  // manage
 const EventRouter=require('./router/EventRouter')   // event management
 const PostContentRouter=require('./router/Allpost.Router')  // all post management
 const CartAddRouter=require('./router/CartsData.Router')   // carts data
+const SemiRouter=require('./router/Semiqualifier.Router')  // semi controller
 
 
 
@@ -23,7 +24,7 @@ app.use('/login', LoginRouter);   // for login user
 app.use('/event', EventRouter);   // for event get set user
 app.use('/post', PostContentRouter);   // for post get set user
 app.use('/cart',CartAddRouter);   // for getting carts and adding carts
-
+app.use('/semi',SemiRouter);   // semi carts data 
 
 const PORT = process.env.PORT || 8008;
 app.listen(PORT, () => {
