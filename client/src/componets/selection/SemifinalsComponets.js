@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { semiCartsByEmail } from '../../handleAPI/handlesemifinal.Api';
-
-
+import { FinalEvent } from '../../handleAPI/handleFinal.ApI';
 
 const SemifinalsComponets = () => {
   const { email, token } = useSelector(selectUser);
@@ -19,10 +18,24 @@ const SemifinalsComponets = () => {
     setFlag(false);
   };
 
-  const handleWinnerClick = () => {
+  const handleWinnerClick = async (selectedCart) => {
     if (startIndex + cartsPerPage < allcartsdata.length) {
-      setFlag(true);
-      setStartIndex(startIndex + cartsPerPage);
+      try {
+        // Call the FinalEvent function with the selected cart data
+        await FinalEvent({
+          token,
+          email,
+          cartName: selectedCart.cartName,
+          ownerName1: selectedCart.ownerName1,
+          ownerName2: selectedCart.ownerName2,
+          // Add other data as needed
+        });
+
+        // Move to the next cart
+        setStartIndex(startIndex + cartsPerPage);
+      } catch (error) {
+        console.error('Error handling final event:', error.message);
+      }
     } else {
       setStartIndex(0);
     }
@@ -80,7 +93,7 @@ const SemifinalsComponets = () => {
                   <p className="text-xl mb-2">Contact Number: {item.contactNumber}</p>
                   <p className="text-xl mb-2">First Name 1: {item.firstName1}</p>
                   <p className="text-xl mb-2">First Name 2: {item.firstName2}</p>
-                  <button className="bg-green-500 text-white px-3 py-2 rounded mt-2" onClick={handleWinnerClick}>
+                  <button className="bg-green-500 text-white px-3 py-2 rounded mt-2" onClick={() => handleWinnerClick(item)}>
                     Winner
                   </button>
                 </div>
