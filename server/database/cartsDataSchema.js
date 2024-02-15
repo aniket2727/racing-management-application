@@ -1,28 +1,21 @@
 
 
 
+// models/Cart.js
 const mongoose = require('mongoose');
 
-// Define schema for carts
-const CartSchema = new mongoose.Schema({
-    bullName1: { type: String, required: true },
-    bullName2: { type: String, required: true },
-    ownerName1: { type: String, required: true },
-    ownerName2: { type: String, required: true },
-    cartName: { type: String, required: true },
+const cartSchema = new mongoose.Schema({
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+  firstName1: String,
+  firstName2: String,
+  ownerName1: String,
+  ownerName2: String,
+  contactNumber: String,
+  cartName: { type: String, required: true },
+  // Other fields as needed
 });
 
-// Define schema for events
-const EventSchema = new mongoose.Schema({
-    creator: {
-        email: { type: String, required: true },
-        name: { type: String, required: true },
-    },
-    carts: [CartSchema], // Embed CartSchema within EventSchema
-    // Other event-related fields
-});
+const Cart = mongoose.model('addcarts', cartSchema);
 
-// Create a model using the schema
-const Event = mongoose.model('cartsData', EventSchema);
-
-module.exports = Event;
+module.exports = Cart;

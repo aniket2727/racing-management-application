@@ -1,44 +1,60 @@
+// controllers/cartController.js
+const Cart = require('../database/cartsDataSchema');
 
+const addCart = async (req, res) => {
+  try {
+    const {
+      email,
+      name,
+      firstName1,
+      firstName2,
+      ownerName1,
+      ownerName2,
+      contactNumber,
+      cartName,
+    } = req.body;
 
+    console.log( email,
+      name,
+      firstName1,
+      firstName2,
+      ownerName1,
+      ownerName2,
+      contactNumber,
+      cartName)
 
-const Event = require('../database/cartsDataSchema');
+    const newCart = new Cart({
+      email,
+      name,
+      firstName1,
+      firstName2,
+      ownerName1,
+      ownerName2,
+      contactNumber,
+      cartName,
+    });
 
-// Controller to create a new event
-// Controller to add an event
-const addEvent = async (req, res) => {
-    try {
-        const eventData = req.body;
-        
-        // Check if bull names already exist
-        const existingEvent = await Event.findOne({
-            'carts.bullName1': eventData.carts[0].bullName1,
-            'carts.bullName2': eventData.carts[0].bullName2,
-        });
+    const savedCart = await newCart.save();
 
-        if (existingEvent) {
-            // Bulls are already registered
-            return res.status(400).json({ success: false, error: 'Bulls are already registered' });
-        }
+    // Additional logic if needed
 
-        const event = new Event(eventData);
-        await event.save();
-        res.status(201).json({ success: true, message: 'Event added successfully' });
-    } catch (error) {
-        console.error('Error adding event:', error.message);
-        res.status(500).json({ success: false, error: 'Internal Server Error' });
-    }
+    res.status(201).json({ success: true, data: savedCart });
+  } catch (error) {
+    console.error('Error adding cart data:', error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
 };
-  
-  // Controller to get events by email
-  const getEventsByEmail = async (req, res) => {
-    try {
-      const { email } = req.params;
-      const events = await Event.find({ 'creator.email': email });
-      res.status(200).json({ success: true, data: events });
-    } catch (error) {
-      console.error('Error getting events:', error.message);
-      res.status(500).json({ success: false, error: 'Internal Server Error' });
-    }
-  };
-  
-  module.exports = { addEvent, getEventsByEmail };
+
+// Controller to get carts by email
+const getcartsdatabyEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const carts = await Cart.find({ email });
+    res.status(200).json({ success: true, data: carts });
+  } catch (error) {
+    console.error('Error getting carts:', error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { addCart, getcartsdatabyEmail };

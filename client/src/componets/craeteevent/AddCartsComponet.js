@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SearchBarComponents from '../searchbar/SearchBarComponets';
 import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
-import { addevent } from '../../handleAPI/HandleEvent.API';
+import { addCartsData } from '../../handleAPI/Handlecart';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +14,15 @@ const AddCartsComponent = () => {
     const [contactNumber, setContactNumber] = useState('');
     const [cartName, setCartName] = useState('');
 
+    // eslint-disable-next-line no-unused-vars
+    const[name,setname]=useState('aniket')
+
     const navigate = useNavigate(); // Initialize useNavigate hook
 
     const { email, token } = useSelector(selectUser);
     // eslint-disable-next-line no-unused-vars
     const { mutate: createEvent, isLoading, isError } = useMutation(
-        (newData) => addevent({ ...newData, email, token }),
+        (newData) => addCartsData({ ...newData, email, token }),
         {
             onSuccess: () => {
                 // Handle success, e.g., reset form fields
@@ -40,6 +43,7 @@ const AddCartsComponent = () => {
         try {
             await createEvent({
                 token,
+                name,
                 email,
                 firstName1,
                 firstName2,
