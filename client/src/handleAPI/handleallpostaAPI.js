@@ -24,23 +24,18 @@ const addpost = async ({ email, name, postContent, token }) => {
 };
 
 const getallpost = async ({ token }) => {
-    console.log("Token in get all post data ", token);
     try {
         const response = await fetch(`${baseurl}/post/posts`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
         });
-
         if (!response.ok) {
             const errorData = await response.json();
             console.error(`Failed to get all posts: ${errorData.message}`);
             throw new Error(`Failed to get all posts: ${errorData.message}`);
         }
-
         const data = await response.json();
-
-        // Check if the received data is an array
         if (!Array.isArray(data)) {
             console.error('Received data is not an array:', data);
             throw new Error('Received data is not an array');

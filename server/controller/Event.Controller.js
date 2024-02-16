@@ -5,16 +5,10 @@ const createEvent = async (req, res) => {
     try {
         const eventData = req.body;
         console.log(eventData);
-
-        // Check if an event with the same email and isRunning: true already exists
-        const existingEvent = await EventModel.findOne({ email: eventData.email, isRunning: true });
-
+        const existingEvent = await EventModel.findOne({ email: eventData.email });
         if (existingEvent) {
-            // Event with the same email and isRunning: true already exists
-            return res.status(400).json({ error: 'Event is already running for this email.' });
+            return res.status(400).json({ error: 'Event with this email already exists.' });
         }
-
-        // If not, proceed to create a new event
         const newEvent = await EventModel.create(eventData);
         res.status(201).json(newEvent);
     } catch (error) {
@@ -22,16 +16,19 @@ const createEvent = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
 // Controller to retrieve all events
 const getEventsByEmail = async (req, res) => {
+    console.log("called")
     try {
         const organizerEmail = req.params.email;
         const events = await EventModel.find({ email: organizerEmail });
 
+        console.log("events",events)
         if (events.length === 0) {
-            return res.status(404).json({ error: 'No events found for the given email.' });
+            return res.status(201).json(0);
         }
-
         res.status(200).json(events);
     } catch (error) {
         console.error(error);

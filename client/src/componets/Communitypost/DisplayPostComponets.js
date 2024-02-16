@@ -8,9 +8,6 @@ const DisplayPostComponents = () => {
   const [isFollowed, setIsFollowed] = useState(false);
   const [posts, setPosts] = useState([]); // Initialize with an empty array
   const { email, token } = useSelector(selectUser);
-
-  console.log('email is ', email, 'token is ', token);
-
   const { mutate: fetchPosts, isLoading, isError } = useMutation(
     () => getallpost({ token }),
     {
