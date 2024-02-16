@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { AddFinalcarts } from '../../handleAPI/handleFinal.ApI';
 import { semiCartsByEmail } from '../../handleAPI/handlesemifinal.Api';
-import { FinalEvent } from '../../handleAPI/handleFinal.ApI';
 
 const SemifinalsComponets = () => {
   const { email, token } = useSelector(selectUser);
@@ -22,13 +22,15 @@ const SemifinalsComponets = () => {
     if (startIndex + cartsPerPage < allcartsdata.length) {
       try {
         // Call the FinalEvent function with the selected cart data
-        await FinalEvent({
+        await AddFinalcarts({
           token,
           email,
           cartName: selectedCart.cartName,
           ownerName1: selectedCart.ownerName1,
           ownerName2: selectedCart.ownerName2,
-          // Add other data as needed
+          firstName1:  selectedCart.firstName1,
+          firstName2:selectedCart.firstName2,
+         
         });
 
         // Move to the next cart
@@ -44,9 +46,8 @@ const SemifinalsComponets = () => {
   useEffect(() => {
     const fetchCartsData = async () => {
       try {
-        // Fetch semifinal carts using the new function
         const response = await semiCartsByEmail({ email, token });
-        setAllcartsdata(response.data || []);
+        setAllcartsdata(response|| []);
         console.log('Semifinal Carts Data:', response.data);
       } catch (error) {
         console.error('Error fetching semifinal carts data:', error.message);
@@ -54,7 +55,7 @@ const SemifinalsComponets = () => {
     };
 
     fetchCartsData();
-  }, [email, token]);
+  },[email,token]);
 
   if (flag) {
     return (
@@ -72,10 +73,11 @@ const SemifinalsComponets = () => {
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
       <div className="max-w-2xl p-6 bg-white rounded-md shadow-md">
+      <h1 className="text-3xl font-bold mb-4 text-gray-800">Semi Finals</h1>
         <h1 className="text-3xl font-bold mb-4 text-gray-800">All Carts Compositions to Semi-Finals</h1>
         <div>
-          <button onClick={() => navigate('/semi-finals')} className="bg-blue-500 text-white px-4 py-2 rounded">
-            Final-qualifiers
+          <button onClick={() => navigate('/finals')} className="bg-blue-500 text-white px-4 py-2 rounded">
+            Final
           </button>
         </div>
         {allcartsdata &&

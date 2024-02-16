@@ -23,7 +23,6 @@ const loginData = async (newData) => {
 };
 
 const registerData = async (newUserData) => {
-  console.log("this is register data", newUserData)
   try {
     const response = await fetch(`${baseurl}/register/register`, {
       method: 'POST',

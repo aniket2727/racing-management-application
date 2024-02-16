@@ -1,16 +1,9 @@
 
-
-
-
-
-
 const Cart = require('../database/semiqSchema');
-
 // Controller to add a new cart
 const addCart = async (req, res) => {
   try {
     const { email, firstName1, firstName2, cartName, ownerName1, ownerName2 } = req.body;
-
     const newCart = new Cart({
       email,
       firstName1,

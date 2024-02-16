@@ -1,5 +1,6 @@
 
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import LoginComponets from "./componets/authcomponets/LoginComponets";
 import RegisterComponets from "./componets/authcomponets/RegisterComponets";
 import NavbarComponents from "./componets/header/NavbarComponets";
@@ -17,6 +18,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
     <div>
+    <ToastContainer />
       <BrowserRouter>
       <NavbarComponents/>
         <Routes>

@@ -26,7 +26,7 @@ app.use('/event', EventRouter);   // for event get set user
 app.use('/post', PostContentRouter);   // for post get set user
 app.use('/cart',CartAddRouter);   // for getting carts and adding carts
 app.use('/semi',SemiRouter);   // semi carts data 
-app.use('/semi',FinalRouter);   // semi carts data 
+app.use('/final',FinalRouter);   // semi carts data 
 
 const PORT = process.env.PORT || 8008;
 app.listen(PORT, () => {

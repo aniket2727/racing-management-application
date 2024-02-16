@@ -2,21 +2,35 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { registerData } from '../../handleAPI/RegisterLogin';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterComponents = () => {
   const navigate = useNavigate();
-  
   const mutation = useMutation(registerData);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("handle register")
+
     if (!email || !name || !password) {
-      return console.log('Fill in all data');
+      return toast.error('Fill in all data');
+    }
+
+    if (!emailRegex.test(email)) {
+      return toast.error('Invalid email format');
+    }
+
+    if (!passwordRegex.test(password)) {
+      return toast.error(
+        'Password must contain at least 8 characters, one lowercase letter, one uppercase letter, and one number'
+      );
     }
 
     try {
@@ -25,17 +39,24 @@ const RegisterComponents = () => {
         name: name,
         password: password,
       });
-  
-      // Check if the response contains a success message
+
       if (response && response.success) {
-        console.log('Registration successful:', response.message);
-        // Optionally, you can navigate to another page or show a success message to the user
+        toast.success('Registration successful');
+        setEmail('');
+        setName('');
+        setPassword('');
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000);
+
       } else {
-        console.log('Registration failed. Unexpected response:', response);
+        toast.error('Registration Successfull');
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000);
       }
     } catch (error) {
-      // Handle error
-      console.error('Registration failed:', error.message);
+      toast.error('Email is already register');
     }
   };
 
@@ -81,7 +102,7 @@ const RegisterComponents = () => {
 
           <button
             type="submit"
-            className="custom-button bg-blue-500 text-white px-4 py-2  rounded-lg cursor-pointer"
+            className="custom-button bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer"
           >
             Create Account
           </button>
@@ -93,6 +114,8 @@ const RegisterComponents = () => {
         >
           Already have an account? Login
         </button>
+
+        <ToastContainer />
       </div>
     </div>
   );

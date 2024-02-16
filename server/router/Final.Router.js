@@ -13,9 +13,9 @@ const auth=require('../middleware/autherization')
 const router = express.Router();
 
 // Route to add a new cart
-router.post('/final',auth, addCartfinal);
+router.post('/final',addCartfinal);
 
 // Route to get carts by email
-router.get('/get/:email', auth, getCartsByEmailfinal);
+router.get('/get/:email', getCartsByEmailfinal);
 
 module.exports = router;

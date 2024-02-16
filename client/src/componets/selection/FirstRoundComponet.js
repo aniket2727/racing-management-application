@@ -73,6 +73,7 @@ const FirstRoundComponet = () => {
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
       <div className="max-w-2xl p-6 bg-white rounded-md shadow-md">
+      <h1 className="text-3xl font-bold mb-4 text-gray-800">First Round</h1>
         <h1 className="text-3xl font-bold mb-4 text-gray-800">All Carts Compositions to Semi-Finals</h1>
         <div>
           <button onClick={() => navigate('/semi-finals')} className="bg-blue-500 text-white px-4 py-2 rounded">

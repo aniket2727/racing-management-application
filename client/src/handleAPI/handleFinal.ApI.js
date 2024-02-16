@@ -7,9 +7,10 @@
 
 const baseurl = "http://localhost:8008";
 
-const FinalEvent = async ({ token, email, firstName1, firstName2, cartName, ownerName1, ownerName2 }) => {
+const AddFinalcarts= async ({ token, email, firstName1, firstName2, cartName, ownerName1, ownerName2 }) => {
+  console.log("emails",email,firstName1,firstName2,cartName,ownerName1,ownerName2);
   try {
-    const response = await fetch(`${baseurl}/semi/semi`, {
+    const response = await fetch(`${baseurl}/final/final`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,8 +31,10 @@ const FinalEvent = async ({ token, email, firstName1, firstName2, cartName, owne
 };
 
 const FinalCartsByEmail = async ({ token, email }) => {
+  console.log("email is A ",email);
+  console.log("token is A ",token)
   try {
-    const response = await fetch(`${baseurl}/semi/get/${email}`, {
+    const response = await fetch(`${baseurl}/final/get/${email}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -44,10 +47,12 @@ const FinalCartsByEmail = async ({ token, email }) => {
     }
 
     const data = await response.json();
+    console.log('data c final ',data)
     return data;
+
   } catch (error) {
     throw new Error(`Fetching carts by email failed: ${error.message}`);
   }
 };
 
-export { FinalEvent, FinalCartsByEmail };
+export { AddFinalcarts, FinalCartsByEmail};

@@ -25,6 +25,7 @@ const addSemiFinalEvent = async ({ token, email, firstName1, firstName2, cartNam
 };
 
 const semiCartsByEmail = async ({ token, email }) => {
+  console.log("in c api",email,token)
   try {
     const response = await fetch(`${baseurl}/semi/get/${email}`, {
       method: 'GET',
@@ -39,6 +40,7 @@ const semiCartsByEmail = async ({ token, email }) => {
     }
 
     const data = await response.json();
+    console.log('in c api data',data)
     return data;
   } catch (error) {
     throw new Error(`Fetching carts by email failed: ${error.message}`);
