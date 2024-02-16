@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { addCartsData, getcartsdatabyEmail } from '../../handleAPI/Handlecart';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddCartsComponent = () => {
     const [firstName1, setFirstName1] = useState('');
@@ -13,20 +15,13 @@ const AddCartsComponent = () => {
     const [ownerName2, setOwnerName2] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [cartName, setCartName] = useState('');
-
+    const [flag,setFlag]=useState(true)
 
     // eslint-disable-next-line no-unused-vars
     const [getcartdata, setGetcartdata] = useState([]);
-
     const navigate = useNavigate(); // Initialize useNavigate hook
-
-    const { email, token } = useSelector(selectUser);
-    // eslint-disable-next-line no-unused-vars
-    const [name, setName] = useState('aniket');
-
-    // Create a new cart
-    // eslint-disable-next-line no-unused-vars
-    const { mutate: createEvent, isLoading: isCreating } = useMutation(
+    const { email, token ,name} = useSelector(selectUser);
+    const { mutate: createEvent } = useMutation(
         (newData) => addCartsData({ ...newData, email, token }),
         {
             onSuccess: () => {
@@ -40,6 +35,13 @@ const AddCartsComponent = () => {
 
                 // Navigate to the /addcart page after successful event creation
                 navigate('/addcart');
+
+                // Show success toast
+                toast.success('Cart added successfully!');
+            },
+            onError: (error) => {
+                // Show error toast
+                toast.error(`Error adding cart: ${error.message}`);
             },
         }
     );
@@ -62,12 +64,38 @@ const AddCartsComponent = () => {
             setGetcartdata(cartsData.data); // Corrected to set data property
 
             console.log('Carts Data:', cartsData);
-            console.log(getcartdata)
+            console.log(getcartdata);
         } catch (error) {
             console.error('Error creating event:', error.message);
         }
-    };
 
+    };
+    
+    const handleGoToFirstRound=async()=>{
+        setFlag(false);
+     }
+
+
+     if (!flag) {
+        return (
+          <div className="flex flex-col items-center justify-center h-screen">
+            <h1>You want to start the race</h1>
+            <h1>You cannot add a cart again</h1>
+            <button
+              onClick={() => navigate('/first-round')}
+              className="bg-green-500 text-white px-4 py-2 rounded mt-4"
+            >
+              I agree to the condition and start the race
+            </button>
+            <button
+              onClick={() => setFlag(true)}
+              className="bg-red-500 text-white px-4 py-2 rounded mt-4"
+            >
+              Take back and add elements
+            </button>
+          </div>
+        );
+      }
     return (
         <>
             <SearchBarComponents />
@@ -135,7 +163,7 @@ const AddCartsComponent = () => {
                         Add to Event
                     </button>
                     <button
-                        onClick={()=>navigate('/first-round')} // Adjusted function name
+                        onClick={handleGoToFirstRound} // Adjusted function name
                         className="bg-green-500 text-white px-4 py-2 rounded"
                     >
                         Start Race

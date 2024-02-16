@@ -52,4 +52,21 @@ const getcartsdatabyEmail = async (req, res) => {
   }
 };
 
-module.exports = { addCart, getcartsdatabyEmail };
+
+const deleteCartsByEmail = async (req, res) => {
+  try {
+    const userCarts = await Cart.deleteMany({ email: req.params.email });
+    console.log("deleted all carts",userCarts)
+
+    if (userCarts.deletedCount === 0) {
+      return res.status(404).json({ error: 'No carts found for the given email.' });
+    }
+
+    res.status(200).json({ message: 'Carts deleted successfully!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { addCart, getcartsdatabyEmail,deleteCartsByEmail };

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Style.css';
 import { getEventsByEmail, deleteEventsByEmail } from '../../handleAPI/HandleEvent.API';
-
+import { deleteCartsByEmail } from '../../handleAPI/Handlecart';
 const CreateEventComponents = () => {
   const [eventName, setEventName] = useState('');
   const [organizerName, setOrganizerName] = useState('');
@@ -40,6 +40,7 @@ const CreateEventComponents = () => {
   const handleDeleteEvent = async () => {
     try {
       await deleteEventsByEmail(email, token);
+      await deleteCartsByEmail(email,token)
       toast.success('Events deleted successfully!');
 
       const fetchDataAfterDeletion = async () => {

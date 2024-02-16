@@ -54,4 +54,23 @@ const getcartsdatabyEmail = async (email, token) => {
     }
 };
 
-export {  addCartsData, getcartsdatabyEmail};
+
+// client/src/handleAPI/HandleCart.js
+const deleteCartsByEmail = async (email, token) => {
+  try {
+    const response = await fetch(`${baseurl}/cart/carts/${email}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Failed to delete carts by email: ${error.message}`);
+  }
+};
+
+
+export {  addCartsData, getcartsdatabyEmail , deleteCartsByEmail};
