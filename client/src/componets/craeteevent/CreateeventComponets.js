@@ -4,12 +4,17 @@ import { useSelector } from 'react-redux';
 import { addevent } from '../../handleAPI/HandleEvent.API';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-
+import './Style.css'
 const CreateEventComponents = () => {
   const [eventName, setEventName] = useState('');
   const [organizerName, setOrganizerName] = useState('');
   const [location, setLocation] = useState('');
   const [eventDate, setEventDate] = useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [flag,setflag]=useState(true);
+  setTimeout(() => {
+    setflag(false)
+  }, 1000);
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
