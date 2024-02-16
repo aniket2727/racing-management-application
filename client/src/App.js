@@ -18,7 +18,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
     <div>
-    <ToastContainer />
       <BrowserRouter>
       <NavbarComponents/>
         <Routes>
@@ -33,6 +32,7 @@ function App() {
           <Route path="/userprofile" element={<Searchprofile/>}/>
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </div>
     </QueryClientProvider>
   );

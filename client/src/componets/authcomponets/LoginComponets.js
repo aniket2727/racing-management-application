@@ -4,13 +4,19 @@ import { setUser, selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { loginData } from '../../handleAPI/RegisterLogin';
-
-
-
+import { toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Style.css'
 const LoginComponents = () => {
+
+  const [flag,setflag]=useState(true)
   const navigate = useNavigate();
   const mutation = useMutation(loginData);
   const dispatch = useDispatch();
+
+  setTimeout(() => {
+    setflag(false)
+  }, 3000);
  
   // eslint-disable-next-line no-unused-vars
   const { email, token } = useSelector(selectUser);
@@ -20,33 +26,57 @@ const LoginComponents = () => {
 
   const handleLogin = async () => {
     if (!userEmail || !userPassword) {
-      return console.log('Fill in all data');
+      return toast.error('Fill in all data');
     }
+
+    const storedUserString = localStorage.getItem('user');
+    if (storedUserString) {
+      const storedUser = JSON.parse(storedUserString);
+      const storedEmail = storedUser.email;    
+      if (storedEmail && storedEmail === userEmail) {
+        toast.success('Login successful');
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000);
+        return;
+      }
+    }
+
     try {
       const response = await mutation.mutateAsync({
         email: userEmail,
         password: userPassword,
       });
        
-      dispatch(setUser({ email: response.email, token: response.token }));
+      dispatch(setUser({ email: response.email, token: response.token ,name:response.name}));
       
       // Check if the response contains a success message
       if (response && response.success) {
-        console.log('Registration successful:', response.message);
-        setTimeout(()=>{
-          navigate('/home')
-        },2000)
+        toast.success('Login successful');
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000);
+
       } else {
-        console.log('Registration failed. Unexpected response:', response);
-          setTimeout(()=>{
-            navigate('/home')
-          },2000)
+        toast.success('Login successful');
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000);
       }
     } catch (error) {
       // Handle error
-      console.error('Registration failed:', error.message);
+       toast.error("login failed")
     }
   };
+
+  if(flag){
+
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">

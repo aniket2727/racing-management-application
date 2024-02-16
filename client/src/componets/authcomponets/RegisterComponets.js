@@ -45,12 +45,14 @@ const RegisterComponents = () => {
         setEmail('');
         setName('');
         setPassword('');
+
         setTimeout(() => {
           navigate('/login')
         }, 2000);
 
       } else {
         toast.error('Registration Successfull');
+
         setTimeout(() => {
           navigate('/login')
         }, 2000);
