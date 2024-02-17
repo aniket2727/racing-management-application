@@ -69,4 +69,32 @@ const deleteCartsByEmail = async (req, res) => {
   }
 };
 
-module.exports = { addCart, getcartsdatabyEmail,deleteCartsByEmail };
+const deleteCartsByObjects = async (req, res) => {
+  try {
+    const { carts } = req.body;
+
+    // Validate if carts is an array
+    if (!Array.isArray(carts) || carts.length === 0) {
+      return res.status(400).json({ error: 'Invalid or empty carts array.' });
+    }
+
+    // Extract cart IDs from the array
+    const cartIds = carts.map(cart => cart._id);
+
+    // Delete carts by IDs
+    const deletedCarts = await Cart.deleteMany({ _id: { $in: cartIds } });
+
+    console.log(`Deleted ${deletedCarts.deletedCount} carts with IDs: ${cartIds}`);
+
+    if (deletedCarts.deletedCount === 0) {
+      return res.status(404).json({ error: 'No carts found for the given cart objects.' });
+    }
+
+    res.status(200).json({ message: 'Carts deleted successfully!' });
+  } catch (error) {
+    console.error('Error deleting carts by objects:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { addCart, getcartsdatabyEmail, deleteCartsByEmail, deleteCartsByObjects };

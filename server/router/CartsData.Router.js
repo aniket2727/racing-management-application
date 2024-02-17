@@ -9,6 +9,7 @@ const { deleteCartsByEmail } = require('../controller/CartsData.Controller');
 router.post('/add', cartController.addCart);
 router.get('/getByEmail/:email', cartController.getcartsdatabyEmail);
 router.delete('/carts/:email', deleteCartsByEmail);
+router.delete('/carts/deleteByObjects', cartController.deleteCartsByObjects);
 
 
 module.exports = router;
