@@ -105,4 +105,25 @@ const deleteCartsByEmailFinal = async (email, token) => {
     throw new Error(`Failed to delete carts by email: ${error.message}`);
   }
 };
-export {  addCartsData, getcartsdatabyEmail , deleteCartsByEmail,deleteCartsByEmailSemi,deleteCartsByEmailFinal};
+
+
+
+const deleteCartsByObjects = async (carts, token) => {
+  try {
+    const response = await fetch(`${baseurl}/cart/deleteByObjects`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ carts }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Failed to delete carts by objects: ${error.message}`);
+  }
+};
+
+export { addCartsData, getcartsdatabyEmail, deleteCartsByEmail, deleteCartsByEmailSemi, deleteCartsByEmailFinal, deleteCartsByObjects };

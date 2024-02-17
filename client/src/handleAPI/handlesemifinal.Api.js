@@ -47,4 +47,23 @@ const semiCartsByEmail = async ({ token, email }) => {
   }
 };
 
-export { addSemiFinalEvent, semiCartsByEmail };
+const semideleteCartsByObjects = async (carts, token) => {
+  try {
+    const response = await fetch(`${baseurl}/cart/deleteByObjects`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ carts }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Failed to delete carts by objects: ${error.message}`);
+  }
+};
+
+
+export { addSemiFinalEvent, semiCartsByEmail,  semideleteCartsByObjects };

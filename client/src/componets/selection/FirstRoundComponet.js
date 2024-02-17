@@ -4,7 +4,7 @@ import { getcartsdatabyEmail } from '../../handleAPI/Handlecart';
 import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { addSemiFinalEvent } from '../../handleAPI/handlesemifinal.Api';
-
+import { deleteCartsByObjects } from '../../handleAPI/Handlecart';
 
 const FirstRoundComponent = () => {
   const { email, token } = useSelector(selectUser);
@@ -40,11 +40,18 @@ const FirstRoundComponent = () => {
       console.error('Error adding semifinal event:', error.message);
     }
     console.log("display cars",displayCarts)
-    var deleteddata=displayCarts;
-    console.log("the data is sended to delete",deleteddata)
+    var deletecartData=displayCarts;
+    console.log("the data is sended to delete",deletecartData)
     setDisplayCarts([]);
     setCartGroups((prevGroups) => prevGroups.slice(1));
     console.log("group",cartGroups);
+
+    try {
+      const deleteResponse = await deleteCartsByObjects(deletecartData, token);
+      console.log(deleteResponse); // Log the delete response
+    } catch (error) {
+      console.error('Error deleting carts:', error.message);
+    }
 
     setFlag(false);
   };
@@ -75,6 +82,7 @@ const FirstRoundComponent = () => {
     };
 
     fetchCartsData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, token]);
 
   useEffect(() => {
@@ -82,6 +90,7 @@ const FirstRoundComponent = () => {
       setDisplayCarts(cartGroups[0].carts);
       console.log("display the data ", displayCarts)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartGroups]);
 
   if (flag) {
