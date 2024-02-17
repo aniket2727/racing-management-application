@@ -104,7 +104,7 @@ const AddCartsComponent = () => {
                 className="max-w-md mx-auto bg-white p-6 rounded-md shadow-md mt-8"
                 style={{ width: '100%' }}
             >
-                <h1 className="text-2xl font-bold mb-4">Event Name</h1>
+                <h1 className="text-2xl font-bold mb-4">Cart Name</h1>
 
                 <div className="flex flex-col gap-4">
                     <input

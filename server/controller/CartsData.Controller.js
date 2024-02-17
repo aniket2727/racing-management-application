@@ -45,6 +45,7 @@ const getcartsdatabyEmail = async (req, res) => {
   try {
     const { email } = req.params;
     const carts = await Cart.find({ email });
+    console.log("data bt emails sended",carts)
     res.status(200).json({ success: true, data: carts });
   } catch (error) {
     console.error('Error getting carts:', error.message);

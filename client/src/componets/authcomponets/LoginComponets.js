@@ -20,7 +20,8 @@ const LoginComponents = () => {
  
   // eslint-disable-next-line no-unused-vars
   const { email, token } = useSelector(selectUser);
-
+  console.log(" login componets email is ",email)
+  console.log(" login componets token is ",token)
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 

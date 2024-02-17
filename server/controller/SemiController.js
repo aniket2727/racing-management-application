@@ -24,7 +24,9 @@ const addCart = async (req, res) => {
 const getCartsByEmail = async (req, res) => {
   try {
     const { email } = req.params;
+    console.log(email)
     const carts = await Cart.find({ email });
+    console.log("get all semi final data",carts)
     res.status(200).json(carts);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -74,5 +76,5 @@ module.exports = {
   addCart,
   getCartsByEmail,
   semideleteCartsByEmail, // Adding the new controller function
-  semideleteCartsByEmail,
+  semideleteCartsByObjects,
 };

@@ -10,6 +10,8 @@ import { semideleteCartsByObjects } from '../../handleAPI/handlesemifinal.Api';
 
 const SemifinalsComponets = () => {
   const { email, token } = useSelector(selectUser);
+
+
   const [flag, setFlag] = useState(false);
   const [allCartsData, setAllCartsData] = useState([]);
   const [cartGroups, setCartGroups] = useState([]);
@@ -60,8 +62,12 @@ const SemifinalsComponets = () => {
 
   useEffect(() => {
     const fetchCartsData = async () => {
+
+      console.log("this is called ")
       try {
+        console.log("carts in semi componets",email,token)
         const response = await semiCartsByEmail(email, token);
+        console.log("semi result",response)
         setAllCartsData(response.data || []);
 
         console.log('Data is fetched from the backend.',allCartsData);

@@ -34,6 +34,7 @@ const addCartsData = async ({ token, email, name, firstName1, firstName2, ownerN
 
 // Assume you have a function to retrieve carts by email
 const getcartsdatabyEmail = async (email, token) => {
+  console.log("get data by emails by c",email,token)
     try {
         const response = await fetch(`${baseurl}/cart/getByEmail/${email}`, {
             method: 'GET',
