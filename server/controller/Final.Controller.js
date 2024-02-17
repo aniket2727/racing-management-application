@@ -42,7 +42,30 @@ const getCartsByEmailfinal = async (req, res) => {
   }
 };
 
+
+// Controller to delete carts by email
+const deleteCartsByEmailfinal = async (req, res) => {
+  try {
+    const { email } = req.params;
+    
+    // Delete all carts with the specified email
+    const deletedCarts = await Cart.deleteMany({ email });
+
+    // Check if any carts were deleted
+    if (deletedCarts.deletedCount > 0) {
+      res.status(200).json({ message: `Carts with email ${email} deleted successfully` });
+    } else {
+      res.status(404).json({ message: `No carts found with email ${email}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addCartfinal,
   getCartsByEmailfinal,
+  deleteCartsByEmailfinal,
 };
+
+

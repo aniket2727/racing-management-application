@@ -73,4 +73,36 @@ const deleteCartsByEmail = async (email, token) => {
 };
 
 
-export {  addCartsData, getcartsdatabyEmail , deleteCartsByEmail};
+const deleteCartsByEmailSemi = async (email, token) => {
+  try {
+    const response = await fetch(`${baseurl}/semi/delete/${email}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Failed to delete carts by email: ${error.message}`);
+  }
+};
+
+
+const deleteCartsByEmailFinal = async (email, token) => {
+  try {
+    const response = await fetch(`${baseurl}/final/delete/${email}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Failed to delete carts by email: ${error.message}`);
+  }
+};
+export {  addCartsData, getcartsdatabyEmail , deleteCartsByEmail,deleteCartsByEmailSemi,deleteCartsByEmailFinal};

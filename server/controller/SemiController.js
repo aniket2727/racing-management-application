@@ -31,7 +31,19 @@ const getCartsByEmail = async (req, res) => {
   }
 };
 
+
+const semideleteCartsByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const deleteResult = await Cart.deleteMany({ email });
+    res.status(200).json({ message: `Deleted ${deleteResult.deletedCount} carts` });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addCart,
   getCartsByEmail,
+  semideleteCartsByEmail, // Adding the new controller function
 };
