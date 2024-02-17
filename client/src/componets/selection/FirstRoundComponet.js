@@ -1,5 +1,3 @@
-// FirstRoundComponent.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getcartsdatabyEmail } from '../../handleAPI/Handlecart';
@@ -7,20 +5,27 @@ import { selectUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { addSemiFinalEvent } from '../../handleAPI/handlesemifinal.Api';
 
+
 const FirstRoundComponent = () => {
   const { email, token } = useSelector(selectUser);
   const [flag, setFlag] = useState(false);
   const [allCartsData, setAllCartsData] = useState([]);
-  const [selectedCarts, setSelectedCarts] = useState([]);
-  const cartsPerPage = 10;
+  const [cartGroups, setCartGroups] = useState([]);
+  const [displayCarts, setDisplayCarts] = useState([]);
+  const [selectedCart, setSelectedCart] = useState(null);
   const navigate = useNavigate();
-  const[f,sf]=useState(true)
 
-  const handleConfirm = () => {
-    setFlag(false);
+  const handleWinnerClick = (selectedCart) => {
+    setFlag(true);
+    setSelectedCart(selectedCart);
   };
 
-  const handleWinnerClick = async (selectedCart) => {
+  const handleConfirm = async () => {
+    if (!selectedCart) {
+      // Handle case when no cart is selected
+      return;
+    }
+
     try {
       await addSemiFinalEvent({
         token,
@@ -31,28 +36,18 @@ const FirstRoundComponent = () => {
         ownerName1: selectedCart.ownerName1,
         ownerName2: selectedCart.ownerName2,
       });
-      setFlag(true)
-      // Remove all 10 carts, including the winner, from the current round
-      setAllCartsData((prevCarts) => prevCarts.slice(cartsPerPage));
-
-      // If there are more carts to process, select the next 10
-      if (allCartsData.length > 0) {
-        const nextCarts = allCartsData.slice(0, cartsPerPage);
-        setAllCartsData((prevCarts) => prevCarts.slice(cartsPerPage));
-        setSelectedCarts(nextCarts);
-      }
-      else{
-        sf(false)
-        setSelectedCarts(allCartsData);
-      }
     } catch (error) {
       console.error('Error adding semifinal event:', error.message);
     }
-  };
+    console.log("display cars",displayCarts)
+    var deleteddata=displayCarts;
+    console.log("the data is sended to delete",deleteddata)
+    setDisplayCarts([]);
+    setCartGroups((prevGroups) => prevGroups.slice(1));
+    console.log("group",cartGroups);
 
-  useEffect(() => {
-    console.log('Selected Carts:', selectedCarts);
-  }, [selectedCarts]);
+    setFlag(false);
+  };
 
   useEffect(() => {
     const fetchCartsData = async () => {
@@ -60,24 +55,34 @@ const FirstRoundComponent = () => {
         const response = await getcartsdatabyEmail(email, token);
         setAllCartsData(response.data || []);
 
-        // Select the first 10 carts initially
-        if (allCartsData.length >= cartsPerPage) {
-          const initialCarts = allCartsData.slice(0, cartsPerPage);
-          setAllCartsData((prevCarts) => prevCarts.slice(cartsPerPage));
-          setSelectedCarts(initialCarts);
-        } else {
-          setSelectedCarts(allCartsData);
+        console.log('Data is fetched from the backend.',allCartsData);
+
+        // Organize carts into groups of 10
+        const groups = [];
+        for (let i = 0; i < allCartsData.length; i += 10) {
+          const group = {
+            count: groups.length + 1,
+            carts: allCartsData.slice(i, i + 10),
+          };
+          groups.push(group);
         }
 
-        console.log('All Carts Data:', response.data);
+        setCartGroups(groups);
+        console.log('Data is organized into groups:', cartGroups);
       } catch (error) {
         console.error('Error fetching cart data:', error.message);
       }
     };
 
     fetchCartsData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email, token,f]);
+  }, [email, token]);
+
+  useEffect(() => {
+    if (cartGroups.length > 0) {
+      setDisplayCarts(cartGroups[0].carts);
+      console.log("display the data ", displayCarts)
+    }
+  }, [cartGroups]);
 
   if (flag) {
     return (
@@ -86,6 +91,10 @@ const FirstRoundComponent = () => {
           <h1 className="text-xl mb-4">You are confirming about the user</h1>
           <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleConfirm}>
             Confirm
+          </button>
+
+          <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={() => setFlag(false)}>
+            Take back
           </button>
         </div>
       </div>
@@ -102,8 +111,8 @@ const FirstRoundComponent = () => {
             Semi-Finalists
           </button>
         </div>
-        {selectedCarts &&
-          selectedCarts.map((item, index) => (
+        {displayCarts &&
+          displayCarts.map((item, index) => (
             <div key={index} className="flex flex-col items-center my-4 border border-gray-300 p-4">
               <h1 className="text-xl mb-2">Cart Name: {item.cartName}</h1>
               <p className="text-xl mb-2">Owner Name: {item.ownerName1} {item.ownerName2}</p>
